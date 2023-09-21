@@ -1,0 +1,117 @@
+---
+- hosts: server1
+  become: true
+  vars_files:
+    - vars/default.yml
+
+  tasks:
+    - name: Necessary prerequisites
+      apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+      loop: ["aptitude"]
+
+    #Apache Configuration
+    - name: Installing necesary packages
+      apt: name={{ item }} update_cache=yes state=latest
+      loop:
+        [
+          "apache2",
+          "mysql-server",
+          "python3-pymysql",
+          "php",
+          "php-mysql",
+          "libapache2-mod-php",
+        ]
+
+    - name: Root document
+      file:
+        path: "/var/www/{{ http_host }}"
+        state: directory
+        owner: "{{ app_user }}"
+        mode: "0755"
+
+    - name: Apache VirtualHost setup
+      template:
+        src: "files/apache.conf.j2"
+        dest: "/etc/apache2/sites-available/{{ http_conf }}"
+      notify: Reload Apache
+
+    - name: Enable site
+      shell: /usr/sbin/a2ensite {{ http_conf }}
+      notify: Reload Apache
+
+    - name: Desable default apache site
+      shell: /usr/sbin/a2dissite 000-default.conf
+      when: disable_default
+      notify: Reload Apache
+
+    # Firewall configuration
+    - name: "Allowing firewall HTTP port {{ http_port }}"
+      ufw:
+        rule: allow
+        port: "{{ http_port }}"
+        proto: tcp
+
+    # Copy source website code
+    - name: Copying source website code
+      copy:
+        src: "{{ website_name_project }}"
+        dest: "/var/www/www.{{ http_host }}"
+
+    # Copy source app code
+    - name: Copying source app code
+      copy:
+        src: "{{ app_name_project }}"
+        dest: "/var/www/app.{{ http_host }}"
+
+    # MYSQL config
+    - name: root user changing password
+      mysql_user:
+        name: root
+        password: "{{ mysql_root_password }}"
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    - name: Deleting anonymous login
+      mysql_user:
+        name: ""
+        host_all: yes
+        state: absent
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+
+    - name: Deleting test database
+      mysql_db:
+        name: test
+        state: absent
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+
+    - name: Creating database
+      mysql_db:
+        name: "{{ db_name }}"
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+
+    - name: Adding sql file
+      copy:
+        src: "{{ file_db }}"
+        dest: "/tmp/{{ file_db }}"
+
+    - name: Inserting database data
+      mysql_db:
+        name: "{{ db_name }}"
+        state: import
+        target: "/tmp/{{ file_db }}"
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+
+  handlers:
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted

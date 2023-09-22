@@ -11,7 +11,7 @@
         <h1>Web application - Elvira Vargas Bermúdez</h1>
         <hr>
         <h2>Users</h2>
-        <a class="btn btn-primary" href="/mysql-php/create.php" role="button">New User</a>
+        <a class="btn btn-primary" href="create.php" role="button">New User</a>
         <br>
         <table class="table">
             <thead>
@@ -26,7 +26,7 @@
                 <?php
                 $servername = "localhost";
                 $username = "root";
-                $password = "";
+                $password = " ";
                 $database = "mytest"; 
 
                 //Connection
@@ -54,8 +54,8 @@
                             <td>$row[email]</td>
                             <td>$row[password]</td>
                             <td>
-                                <a class='btn btn-warning btn-sm' href='/mysql-php/edit.php?userid=$row[userid]'>Edit</a>
-                                <a class='btn btn-danger btn-sm' href='/mysql-php/delete.php?userid=$row[userid]'>Delete</a>
+                                <a class='btn btn-warning btn-sm' href='edit.php?userid=$row[userid]'>Edit</a>
+                                <a class='btn btn-danger btn-sm' href='delete.php?userid=$row[userid]'>Delete</a>
                             </td>
                         </tr>
                     ";

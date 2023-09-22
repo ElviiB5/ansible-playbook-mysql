@@ -4,7 +4,7 @@
 
         $servername = "localhost";
         $username = "root";
-        $password = "";
+        $password = " ";
         $database = "mytest";
     
         //Connection
@@ -14,6 +14,6 @@
         $connection->query($sql);
     }
 
-    header("location: /mysql-php/index.php");
+    header("location: index.php");
     exit;
 ?>

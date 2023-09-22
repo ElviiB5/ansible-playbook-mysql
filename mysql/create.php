@@ -1,7 +1,7 @@
 <?php
     $servername = "localhost";
     $username = "root";
-    $password = "";
+    $password = " ";
     $database = "mytest";
 
     //Connection
@@ -41,7 +41,7 @@
 
             $successMessage = "User added successfully";
 
-            header("location: /mysql-php/index.php");
+            header("location: index.php");
             exit;
 
         } while (false);

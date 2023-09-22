@@ -1,12 +1,15 @@
 ---
 mysql_root_password: " "
+mysql_old_root_password: "new"
 app_user: "elvira" # Usuario del servidor
-http_host: "evargas.com" # Nombre del sitio
-http_conf: "evargas.com.conf" # Nombre del archivo de configuracion del sitio
+website_http_host: "www.evargas.com" # Nombre del sitio del curriculum
+website_http_conf: "www.evargas.com.conf" # Nombre del archivo de configuracion del sitio del curriculum
+website_project_name: "curriculum"
+app_http_host: "app.evargas.com" # Nombre del sitio de la aplicación
+app_http_conf: "app.evargas.com.conf" # Nombre del archivo de configuracion del sitio la aplicación
+app_project_name: "mysql"
 http_port: "80" # Puerto en el que se habilitar
-disable_default: true # Sabe que sea
-websit_name_project: "curriculum" # Nombre de la carpeta donde tienes el codigo fuente de la pagina
-app_name_project: "mysql-php" # Nombre de la carpeta donde tienes el codigo fuente de la pagina
+disable_default: yes # Sabe que sea
 db_name: "mytest" # Nombre de la base de datos
 file_db: "mytest.sql" # Nombre del archivo donde tienes el respaldo de la base de datos
 name_new_user_db: "elvira" # Nombre de usuario con el que se conectara a la base de datos

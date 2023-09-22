@@ -1,12 +1,11 @@
 <VirtualHost *:{{ http_port }}>
     ServerAdmin webmaster@localhost
-    ServerName {{ http_host }}
-    ServerAlias www.{{ http_host }}
-    DocumentRoot /var/www/{{ http_host }}
+    ServerName {{ app_http_host }}
+    DocumentRoot /var/www/{{ app_http_host }}/{{app_project_name}}
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-    <Directory /var/www/{{ http_host }}>
+    <Directory /var/www/{{ app_http_host }}>
           Options -Indexes
     </Directory>
 

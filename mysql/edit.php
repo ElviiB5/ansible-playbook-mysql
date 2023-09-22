@@ -1,7 +1,7 @@
 <?php
     $servername = "localhost";
     $username = "root";
-    $password = "";
+    $password = " ";
     $database = "mytest";
 
     //Connection
@@ -18,7 +18,7 @@
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         // GET method: Show the user data
         if (!isset($_GET["userid"])) {
-            header("location: /mysql-php/index.php");
+            header("location: index.php");
             exit;
         }
 
@@ -29,7 +29,7 @@
         $row = $result->fetch_assoc();
 
         if (!$row) {
-            header("location /mysql-php/index.php");
+            header("location index.php");
             exit;
         }
 
@@ -62,7 +62,7 @@
 
             $successMessage = "User updated successfully";
 
-            header("location: /mysql-php/index.php");
+            header("location: index.php");
             exit;
         } while (false);
     }
@@ -130,7 +130,7 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
                 <div class="col-sm-3 d-grid">
-                    <button type="submit" class="btn btn-outline-primary" href="/mysql-php/index.php">Cancel</button>
+                    <button type="submit" class="btn btn-outline-primary" href="index.php">Cancel</button>
                 </div>
             </div>
         </form>
